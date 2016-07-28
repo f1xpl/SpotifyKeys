@@ -7,40 +7,37 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="spotifykeys.mtcn.com.spotifykeys.MainActivity">
+    tools:context="spotifykeys.mtcn.com.spotifykeys.KeyCodesForPreviousLearningActivity">
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Learn &lt; PREV > key code"
-        android:id="@+id/buttonLearnPrevious"
-        android:layout_marginTop="27dp"
-        android:layout_below="@+id/switchSwitchTrackWhenPaused"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/buttonLearnNext"
-        android:layout_alignEnd="@+id/buttonLearnNext" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Learn &lt; NEXT > key code"
-        android:id="@+id/buttonLearnNext"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/buttonLearnPrevious"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Learn key codes for &lt; PREV >"
+        android:id="@+id/textLearnKeyCodesForPrevious"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Switch
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Switch track when paused"
-        android:id="@+id/switchSwitchTrackWhenPaused"
-        android:layout_alignParentTop="true"
+        android:text="Start Learning"
+        android:id="@+id/buttonStartLearningPrevious"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/buttonLearnPrevious"
-        android:layout_alignEnd="@+id/buttonLearnPrevious" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewKeyCodesForPrevious"
+        android:layout_below="@+id/textLearnKeyCodesForPrevious"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/buttonStartLearningPrevious" />
 </RelativeLayout>

@@ -9,14 +9,19 @@ import android.content.IntentFilter;
  * Created by COMPUTER on 2016-07-26.
  */
 public class KeyEventsHandler extends BroadcastReceiver {
-    KeyEventsHandler(KeyEventsHandlerListener keyEventsHandlerListener) {
+    KeyEventsHandler(Context context, KeyEventsHandlerListener keyEventsHandlerListener) {
+        mContext = context;
         mKeyEventsHandlerListener = keyEventsHandlerListener;
     }
 
-    public void subscribe(Context context) {
+    public void subscribe() {
         IntentFilter irkeyIntent = new IntentFilter();
         irkeyIntent.addAction(KEY_PRESSED_ACTION_NAME);
-        context.registerReceiver(this, irkeyIntent);
+        mContext.registerReceiver(this, irkeyIntent);
+    }
+
+    public void unsubscribe() {
+        mContext.unregisterReceiver(this);
     }
 
     @Override
@@ -25,6 +30,7 @@ public class KeyEventsHandler extends BroadcastReceiver {
 		mKeyEventsHandlerListener.onKeyPressed(keyCode);
     }
 
+    private final Context mContext;
     private final KeyEventsHandlerListener mKeyEventsHandlerListener;
     private static final String KEYCODE_PARAM_NAME = "keyCode";
     private static final String KEY_PRESSED_ACTION_NAME = "com.microntek.irkeyDown";
