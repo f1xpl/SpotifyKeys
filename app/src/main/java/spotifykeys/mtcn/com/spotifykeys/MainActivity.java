@@ -9,18 +9,19 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import spotifykeys.mtcn.com.spotifykeys.preferences.CommitFailedException;
-import spotifykeys.mtcn.com.spotifykeys.preferences.SwitchTrackWhenPaused;
+import spotifykeys.mtcn.com.spotifykeys.framework.preferences.CommitFailedException;
+import spotifykeys.mtcn.com.spotifykeys.next.KeyCodesForNextLearningActivity;
+import spotifykeys.mtcn.com.spotifykeys.previous.KeyCodesForPreviousLearningActivity;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String APP_NAME = "SpotifyKeysPreferences";
+    public static final String APP_NAME = "SpotifyKeys";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSwitchTrackWhenPaused = new SwitchTrackWhenPaused(getSharedPreferences(APP_NAME, Context.MODE_PRIVATE));
+        mSwitchTrackWhenPausedPreference = new SwitchTrackWhenPausedPreference(getSharedPreferences(APP_NAME, Context.MODE_PRIVATE));
 
         mLearnKeyCodeForPreviousButton = (Button)this.findViewById(R.id.buttonLearnPrevious);
         mLearnKeyCodeForPreviousButton.setOnClickListener(new LearnKeyCodeForPreviousButtonClickListener());
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSwitchTrackWhenPausedSwitch = (Switch)this.findViewById(R.id.switchSwitchTrackWhenPaused);
         mSwitchTrackWhenPausedSwitch.setOnClickListener(new SwitchTrackWhenPausedSwitchClickListener());
-        mSwitchTrackWhenPausedSwitch.setChecked(mSwitchTrackWhenPaused.get());
+        mSwitchTrackWhenPausedSwitch.setChecked(mSwitchTrackWhenPausedPreference.get());
 
         this.startService(new Intent(this, KeysService.class));
     }
@@ -53,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             try {
-                boolean state = mSwitchTrackWhenPaused.get();
-                mSwitchTrackWhenPaused.set(!state);
+                boolean state = mSwitchTrackWhenPausedPreference.get();
+                mSwitchTrackWhenPausedPreference.set(!state);
             } catch (CommitFailedException e) {
                 e.printStackTrace();
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private SwitchTrackWhenPaused mSwitchTrackWhenPaused = null;
+    private SwitchTrackWhenPausedPreference mSwitchTrackWhenPausedPreference = null;
     private Button mLearnKeyCodeForPreviousButton = null;
     private Button mLearnKeyCodeForNextButton = null;
     private Switch mSwitchTrackWhenPausedSwitch = null;

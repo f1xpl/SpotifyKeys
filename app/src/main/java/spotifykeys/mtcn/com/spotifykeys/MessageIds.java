@@ -6,4 +6,5 @@ package spotifykeys.mtcn.com.spotifykeys;
 public class MessageIds {
     public static final int OBTAIN_KEY_CODE = 0x100001;
     public static final int KEY_CODE = 0x100002;
+    public static final int OBTAIN_KEY_CODE_ABORTED = 0x100003;
 }

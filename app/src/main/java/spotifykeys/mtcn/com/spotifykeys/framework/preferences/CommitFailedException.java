@@ -1,4 +1,4 @@
-package spotifykeys.mtcn.com.spotifykeys.preferences;
+package spotifykeys.mtcn.com.spotifykeys.framework.preferences;
 
 /**
  * Created by COMPUTER on 2016-07-28.

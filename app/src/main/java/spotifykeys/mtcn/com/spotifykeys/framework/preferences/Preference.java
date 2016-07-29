@@ -1,6 +1,8 @@
-package spotifykeys.mtcn.com.spotifykeys.preferences;
+package spotifykeys.mtcn.com.spotifykeys.framework.preferences;
 
 import android.content.SharedPreferences;
+
+import spotifykeys.mtcn.com.spotifykeys.framework.preferences.CommitFailedException;
 
 /**
  * Created by COMPUTER on 2016-07-28.

@@ -1,4 +1,4 @@
-package spotifykeys.mtcn.com.spotifykeys;
+package spotifykeys.mtcn.com.spotifykeys.framework;
 
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -15,25 +15,22 @@ import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
-import spotifykeys.mtcn.com.spotifykeys.preferences.CommitFailedException;
-import spotifykeys.mtcn.com.spotifykeys.preferences.KeyCodes;
+import spotifykeys.mtcn.com.spotifykeys.KeysService;
+import spotifykeys.mtcn.com.spotifykeys.MessageIds;
 
 /**
  * Created by COMPUTER on 2016-07-28.
  */
-abstract class KeyCodesLearningActivity extends AppCompatActivity {
+public abstract class KeyCodesLearningActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mKeyCodes = createKeyCodesStorage();
+        mKeyCodesStorage = createKeyCodesStorage();
 
         mLearningProgressDialog = new ProgressDialog(this);
         mLearningProgressDialog.setTitle("Waiting for key press");
@@ -60,46 +57,16 @@ abstract class KeyCodesLearningActivity extends AppCompatActivity {
     protected void initKeyCodesListView(int id) {
         mKeyCodesListView = (ListView)this.findViewById(id);
         mKeyCodesListView.setOnItemLongClickListener(new LearntKeyCodeClickListener());
-        mKeyCodesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>(mKeyCodes.get()));
-        mKeyCodesListView.setAdapter(mKeyCodesAdapter);
+        mKeyCodesListView.setAdapter(mKeyCodesStorage.getAdapter());
     }
 
-    abstract KeyCodes createKeyCodesStorage();
+    protected abstract KeyCodesStorage createKeyCodesStorage();
 
-    private void startKeyCodeLearning() {
-        mLearnKeyCodeButton.setClickable(false);
-
-        try {
-            Message msg = new Message();
-            msg.what = MessageIds.OBTAIN_KEY_CODE;
-            msg.replyTo = mMessenger;
-            mServiceMessenger.send(msg);
-
-            mLearningTimer.start();
-            mLearningProgressDialog.show();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            finishKeyCodeLearning("Failed to start learning procedure");
-        }
-    }
-
-    private void learnKeyCode(int keyCode) {
-        String keyCodeString = Integer.toString(keyCode);
-
-        if(!mKeyCodes.get().contains(keyCodeString)) {
-            mKeyCodesAdapter.add(keyCodeString);
-
-            try {
-                mKeyCodes.insert(keyCode);
-                finishKeyCodeLearning("Key has been learnt");
-            } catch (CommitFailedException e) {
-                e.printStackTrace();
-                mKeyCodesAdapter.remove(keyCodeString);
-                finishKeyCodeLearning("Unable to save the key");
-            }
-        } else {
-            finishKeyCodeLearning("Key has been already stored");
-        }
+    private void sendMessage(int messageId) throws RemoteException {
+        Message msg = new Message();
+        msg.what = messageId;
+        msg.replyTo = mMessenger;
+        mServiceMessenger.send(msg);
     }
 
     private void finishKeyCodeLearning(String finishText) {
@@ -127,7 +94,8 @@ abstract class KeyCodesLearningActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MessageIds.KEY_CODE:
-                    KeyCodesLearningActivity.this.learnKeyCode(msg.arg1);
+                    String finishText = mKeyCodesStorage.store(msg.arg1) ? "Key code has been learnt" : "Key code learning failed";
+                    finishKeyCodeLearning(finishText);
                     break;
             }
         }
@@ -136,22 +104,24 @@ abstract class KeyCodesLearningActivity extends AppCompatActivity {
     private class LearnKeyCodeButtonClickListener implements Button.OnClickListener {
         @Override
         public void onClick(View view) {
-            startKeyCodeLearning();
+            mLearnKeyCodeButton.setClickable(false);
+
+            try {
+                sendMessage(MessageIds.OBTAIN_KEY_CODE);
+                mLearningTimer.start();
+                mLearningProgressDialog.show();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                finishKeyCodeLearning("Failed to start learning procedure");
+            }
         }
     }
 
     private class LearntKeyCodeClickListener implements ListView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-            String keyCode = mKeyCodesAdapter.getItem(position);
-
-            try {
-                mKeyCodes.remove(Integer.parseInt(keyCode));
-                mKeyCodesAdapter.remove(keyCode);
-            } catch (CommitFailedException e) {
-                e.printStackTrace();
-
-                Toast toast = Toast.makeText(KeyCodesLearningActivity.this, "Unable to remove learnt key", Toast.LENGTH_LONG);
+            if(!mKeyCodesStorage.remove(position)) {
+                Toast toast = Toast.makeText(KeyCodesLearningActivity.this, "Unable to remove the key", Toast.LENGTH_LONG);
                 toast.show();
             }
 
@@ -167,16 +137,21 @@ abstract class KeyCodesLearningActivity extends AppCompatActivity {
 
         @Override
         public void onFinish() {
+            try {
+                sendMessage(MessageIds.OBTAIN_KEY_CODE_ABORTED);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
             KeyCodesLearningActivity.this.finishKeyCodeLearning("Key learning timed out");
         }
     };
 
-    private KeyCodes mKeyCodes = null;
+    private KeyCodesStorage mKeyCodesStorage = null;
 
     private ProgressDialog mLearningProgressDialog = null;
     private Button mLearnKeyCodeButton = null;
     private ListView mKeyCodesListView = null;
-    private ArrayAdapter<String> mKeyCodesAdapter = null;
 
     private KeysListenerServiceConnection mServiceConnection = null;
     private Messenger mServiceMessenger = null;
@@ -184,4 +159,4 @@ abstract class KeyCodesLearningActivity extends AppCompatActivity {
 
     private static final long LEARN_TIMER_DURATION_MS = 5000;
     private static final long LEARN_TIMER_STEP_MS = 1000;
-};
+}

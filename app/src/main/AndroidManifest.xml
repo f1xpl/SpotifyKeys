@@ -27,8 +27,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".KeyCodesForNextLearningActivity" />
-        <activity android:name=".KeyCodesForPreviousLearningActivity"></activity>
+        <activity android:name=".next.KeyCodesForNextLearningActivity" />
+        <activity android:name=".previous.KeyCodesForPreviousLearningActivity"></activity>
     </application>
 
 </manifest>

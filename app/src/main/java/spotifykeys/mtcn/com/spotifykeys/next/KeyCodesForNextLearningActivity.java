@@ -1,10 +1,10 @@
-package spotifykeys.mtcn.com.spotifykeys;
+package spotifykeys.mtcn.com.spotifykeys.next;
 
-import android.content.Context;
 import android.os.Bundle;
 
-import spotifykeys.mtcn.com.spotifykeys.preferences.KeyCodes;
-import spotifykeys.mtcn.com.spotifykeys.preferences.KeyCodesForNext;
+import spotifykeys.mtcn.com.spotifykeys.R;
+import spotifykeys.mtcn.com.spotifykeys.framework.KeyCodesLearningActivity;
+import spotifykeys.mtcn.com.spotifykeys.framework.KeyCodesStorage;
 
 public class KeyCodesForNextLearningActivity extends KeyCodesLearningActivity {
     @Override
@@ -16,7 +16,7 @@ public class KeyCodesForNextLearningActivity extends KeyCodesLearningActivity {
     }
 
     @Override
-    KeyCodes createKeyCodesStorage() {
-        return new KeyCodesForNext(getSharedPreferences(MainActivity.APP_NAME, Context.MODE_PRIVATE));
+    protected KeyCodesStorage createKeyCodesStorage() {
+        return new KeyCodesForNextStorage(this);
     }
 }

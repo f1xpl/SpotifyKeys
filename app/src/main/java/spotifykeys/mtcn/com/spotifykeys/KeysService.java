@@ -9,9 +9,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
-import spotifykeys.mtcn.com.spotifykeys.preferences.KeyCodesForNext;
-import spotifykeys.mtcn.com.spotifykeys.preferences.KeyCodesForPrevious;
-import spotifykeys.mtcn.com.spotifykeys.preferences.SwitchTrackWhenPaused;
+import spotifykeys.mtcn.com.spotifykeys.next.KeyCodesForNextPreference;
+import spotifykeys.mtcn.com.spotifykeys.previous.KeyCodesForPreviousPreference;
 
 /**
  * Created by COMPUTER on 2016-07-26.
@@ -20,10 +19,10 @@ public class KeysService extends android.app.Service {
     @Override
     public void onCreate() {
         SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.APP_NAME, Context.MODE_PRIVATE);
-        mSwitchTrackWhenPaused = new SwitchTrackWhenPaused(sharedPreferences);
-        mKeyCodesForNext = new KeyCodesForNext(sharedPreferences);
-        mKeyCodesForPrevious = new KeyCodesForPrevious(sharedPreferences);
-        mSpotifyProxy = new SpotifyProxy(this, mSwitchTrackWhenPaused);
+        mSwitchTrackWhenPausedPreference = new SwitchTrackWhenPausedPreference(sharedPreferences);
+        mKeyCodesForNextPreference = new KeyCodesForNextPreference(sharedPreferences);
+        mKeyCodesForPreviousPreference = new KeyCodesForPreviousPreference(sharedPreferences);
+        mSpotifyProxy = new SpotifyProxy(this, mSwitchTrackWhenPausedPreference);
         mKeyEventsHandler = new KeyEventsHandler(this, mKeyEventsHandlerListener);
 
         mKeyEventsHandler.subscribe();
@@ -56,6 +55,9 @@ public class KeysService extends android.app.Service {
                 case MessageIds.OBTAIN_KEY_CODE:
                     mKeyCodeObtainerMessenger = msg.replyTo;
                     break;
+                case MessageIds.OBTAIN_KEY_CODE_ABORTED:
+                    mKeyCodeObtainerMessenger = null;
+                    break;
             }
         }
     }
@@ -68,9 +70,9 @@ public class KeysService extends android.app.Service {
             if(mKeyCodeObtainerMessenger != null) {
                 sendKeyCode(keyCode);
                 mKeyCodeObtainerMessenger = null;
-            } else if (mKeyCodesForNext.get().contains(keyCodeString)) {
+            } else if (mKeyCodesForNextPreference.get().contains(keyCodeString)) {
                 mSpotifyProxy.nextTrack();
-            } else if (mKeyCodesForPrevious.get().contains(keyCodeString)) {
+            } else if (mKeyCodesForPreviousPreference.get().contains(keyCodeString)) {
                 mSpotifyProxy.previousTrack();
             }
         }
@@ -88,9 +90,9 @@ public class KeysService extends android.app.Service {
         }
     };
 
-    private SwitchTrackWhenPaused mSwitchTrackWhenPaused = null;
-    private KeyCodesForNext mKeyCodesForNext = null;
-    private KeyCodesForPrevious mKeyCodesForPrevious = null;
+    private SwitchTrackWhenPausedPreference mSwitchTrackWhenPausedPreference = null;
+    private KeyCodesForNextPreference mKeyCodesForNextPreference = null;
+    private KeyCodesForPreviousPreference mKeyCodesForPreviousPreference = null;
     private SpotifyProxy mSpotifyProxy = null;
     private KeyEventsHandler mKeyEventsHandler = null;
     private final Messenger mMessenger = new Messenger(new MessageHandler());

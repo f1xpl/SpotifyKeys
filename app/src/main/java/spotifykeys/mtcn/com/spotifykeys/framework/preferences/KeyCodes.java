@@ -1,4 +1,4 @@
-package spotifykeys.mtcn.com.spotifykeys.preferences;
+package spotifykeys.mtcn.com.spotifykeys.framework.preferences;
 
 import android.content.SharedPreferences;
 

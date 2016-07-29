@@ -1,15 +1,14 @@
-package spotifykeys.mtcn.com.spotifykeys.preferences;
+package spotifykeys.mtcn.com.spotifykeys.previous;
 
 import android.content.SharedPreferences;
 
-import java.util.HashSet;
-import java.util.Set;
+import spotifykeys.mtcn.com.spotifykeys.framework.preferences.KeyCodes;
 
 /**
  * Created by COMPUTER on 2016-07-28.
  */
-public class KeyCodesForPrevious extends KeyCodes {
-    public KeyCodesForPrevious(SharedPreferences sharedPreferences) {
+public class KeyCodesForPreviousPreference extends KeyCodes {
+    public KeyCodesForPreviousPreference(SharedPreferences sharedPreferences) {
         super(sharedPreferences);
     }
 

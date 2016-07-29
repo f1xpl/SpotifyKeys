@@ -1,12 +1,14 @@
-package spotifykeys.mtcn.com.spotifykeys.preferences;
+package spotifykeys.mtcn.com.spotifykeys;
 
 import android.content.SharedPreferences;
+
+import spotifykeys.mtcn.com.spotifykeys.framework.preferences.Preference;
 
 /**
  * Created by COMPUTER on 2016-07-28.
  */
-public class SwitchTrackWhenPaused extends Preference<Boolean> {
-    public SwitchTrackWhenPaused(SharedPreferences sharedPreferences) {
+public class SwitchTrackWhenPausedPreference extends Preference<Boolean> {
+    public SwitchTrackWhenPausedPreference(SharedPreferences sharedPreferences) {
         super(sharedPreferences);
     }
 

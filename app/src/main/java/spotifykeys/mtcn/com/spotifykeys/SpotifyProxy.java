@@ -5,15 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import spotifykeys.mtcn.com.spotifykeys.preferences.SwitchTrackWhenPaused;
-
 /**
  * Created by COMPUTER on 2016-07-27.
  */
 public class SpotifyProxy extends BroadcastReceiver {
-    SpotifyProxy(Context context, SwitchTrackWhenPaused switchTrackWhenPaused) {
+    SpotifyProxy(Context context, SwitchTrackWhenPausedPreference switchTrackWhenPausedPreference) {
         mContext = context;
-        mSwitchTrackWhenPaused = switchTrackWhenPaused;
+        mSwitchTrackWhenPausedPreference = switchTrackWhenPausedPreference;
         mIsPlaybackActive = false;
     }
 
@@ -33,13 +31,13 @@ public class SpotifyProxy extends BroadcastReceiver {
     }
 
     public void nextTrack() {
-        if(mIsPlaybackActive || mSwitchTrackWhenPaused.get()) {
+        if(mIsPlaybackActive || mSwitchTrackWhenPausedPreference.get()) {
             this.sendCommand(NEXT_TRACK_COMMAND);
         }
     }
 
     public void previousTrack() {
-        if(mIsPlaybackActive || mSwitchTrackWhenPaused.get()) {
+        if(mIsPlaybackActive || mSwitchTrackWhenPausedPreference.get()) {
             this.sendCommand(PREVIOUS_TRACK_COMMAND);
         }
     }
@@ -51,7 +49,7 @@ public class SpotifyProxy extends BroadcastReceiver {
     }
 
     private final Context mContext;
-    private final SwitchTrackWhenPaused mSwitchTrackWhenPaused;
+    private final SwitchTrackWhenPausedPreference mSwitchTrackWhenPausedPreference;
     private boolean mIsPlaybackActive;
 
     private static final String PLAYBACK_STATE_PARAM_NAME = "playing";
