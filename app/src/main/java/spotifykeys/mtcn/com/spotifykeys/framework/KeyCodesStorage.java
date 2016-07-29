@@ -12,7 +12,7 @@ import spotifykeys.mtcn.com.spotifykeys.framework.preferences.KeyCodes;
  * Created by COMPUTER on 2016-07-29.
  */
 public abstract class KeyCodesStorage {
-    public KeyCodesStorage(Context context) {
+    protected KeyCodesStorage(Context context) {
         mKeyCodes = createKeyCodes(context);
         mAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, new ArrayList<>(mKeyCodes.get()));
     }

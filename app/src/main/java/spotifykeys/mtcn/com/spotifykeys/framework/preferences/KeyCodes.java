@@ -9,7 +9,7 @@ import java.util.Set;
  * Created by COMPUTER on 2016-07-28.
  */
 public abstract class KeyCodes extends Preference<Set<String>> {
-    public KeyCodes(SharedPreferences sharedPreferences) {
+    protected KeyCodes(SharedPreferences sharedPreferences) {
         super(sharedPreferences);
     }
 

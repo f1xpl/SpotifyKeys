@@ -7,37 +7,37 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".previous.KeyCodesForPreviousLearningActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Learn key codes &lt; PREV >"
-        android:id="@+id/textLearnKeyCodesForPrevious"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    tools:context="spotifykeys.mtcn.com.spotifykeys.playpause.KeyCodesForPlayPauseLearningActivity">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start learning"
-        android:id="@+id/buttonStartLearningPrevious"
+        android:id="@+id/buttonStartLearningPlayPause"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Learn key codes &lt; PLAY/PAUSE >"
+        android:id="@+id/textLearnKeyCodesForPlayPause"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/buttonStartLearningPlayPause"
+        android:layout_alignEnd="@+id/buttonStartLearningPlayPause" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listViewKeyCodesForPrevious"
-        android:layout_below="@+id/textLearnKeyCodesForPrevious"
+        android:id="@+id/listViewKeyCodesForPlayPause"
+        android:layout_below="@+id/textLearnKeyCodesForPlayPause"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/buttonStartLearningPrevious" />
+        android:layout_above="@+id/buttonStartLearningPlayPause" />
 </RelativeLayout>

@@ -10,7 +10,7 @@ import spotifykeys.mtcn.com.spotifykeys.framework.preferences.CommitFailedExcept
 public abstract class Preference<T> {
     public Preference(SharedPreferences sharedPreferences) {
         mSharedPreferences = sharedPreferences;
-        mEditor = sharedPreferences.edit();
+        mEditor = mSharedPreferences.edit();
         mValue = read();
         mSharedPreferences.registerOnSharedPreferenceChangeListener(mChangeListener);
     }
@@ -35,10 +35,10 @@ public abstract class Preference<T> {
 
     protected abstract String getKeyPrefix();
 
-    private SharedPreferences.OnSharedPreferenceChangeListener mChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+    private final SharedPreferences.OnSharedPreferenceChangeListener mChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String prefix) {
-            if(prefix == getKeyPrefix()) {
+            if(prefix.equals(getKeyPrefix())) {
                 mValue = read();
             }
         }

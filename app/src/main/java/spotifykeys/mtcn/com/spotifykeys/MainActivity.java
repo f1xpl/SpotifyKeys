@@ -1,16 +1,13 @@
 package spotifykeys.mtcn.com.spotifykeys;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
-import android.widget.Toast;
 
-import spotifykeys.mtcn.com.spotifykeys.framework.preferences.CommitFailedException;
 import spotifykeys.mtcn.com.spotifykeys.next.KeyCodesForNextLearningActivity;
+import spotifykeys.mtcn.com.spotifykeys.playpause.KeyCodesForPlayPauseLearningActivity;
 import spotifykeys.mtcn.com.spotifykeys.previous.KeyCodesForPreviousLearningActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,52 +18,39 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSwitchTrackWhenPausedPreference = new SwitchTrackWhenPausedPreference(getSharedPreferences(APP_NAME, Context.MODE_PRIVATE));
-
         mLearnKeyCodeForPreviousButton = (Button)this.findViewById(R.id.buttonLearnPrevious);
         mLearnKeyCodeForPreviousButton.setOnClickListener(new LearnKeyCodeForPreviousButtonClickListener());
 
         mLearnKeyCodeForNextButton = (Button)this.findViewById(R.id.buttonLearnNext);
         mLearnKeyCodeForNextButton.setOnClickListener(new LearnKeyCodeForNextButtonClickListener());
 
-        mSwitchTrackWhenPausedSwitch = (Switch)this.findViewById(R.id.switchSwitchTrackWhenPaused);
-        mSwitchTrackWhenPausedSwitch.setOnClickListener(new SwitchTrackWhenPausedSwitchClickListener());
-        mSwitchTrackWhenPausedSwitch.setChecked(mSwitchTrackWhenPausedPreference.get());
+        mLearnKeyCodeForNextButton = (Button)this.findViewById(R.id.buttonLearnPlayPause);
+        mLearnKeyCodeForNextButton.setOnClickListener(new LearnKeyCodeForPlayPauseButtonClickListener());
 
         this.startService(new Intent(this, KeysService.class));
     }
 
-    class LearnKeyCodeForPreviousButtonClickListener implements Button.OnClickListener {
+    private class LearnKeyCodeForPreviousButtonClickListener implements Button.OnClickListener {
         @Override
         public void onClick(View view) {
             startActivity(new Intent(MainActivity.this, KeyCodesForPreviousLearningActivity.class));
         }
     }
 
-    class LearnKeyCodeForNextButtonClickListener implements Button.OnClickListener {
+    private class LearnKeyCodeForNextButtonClickListener implements Button.OnClickListener {
         @Override
         public void onClick(View view) {
             startActivity(new Intent(MainActivity.this, KeyCodesForNextLearningActivity.class));
         }
     }
 
-    class SwitchTrackWhenPausedSwitchClickListener implements Switch.OnClickListener {
+    private class LearnKeyCodeForPlayPauseButtonClickListener implements Button.OnClickListener {
         @Override
         public void onClick(View view) {
-            try {
-                boolean state = mSwitchTrackWhenPausedPreference.get();
-                mSwitchTrackWhenPausedPreference.set(!state);
-            } catch (CommitFailedException e) {
-                e.printStackTrace();
-
-                Toast toast = Toast.makeText(MainActivity.this, "Failed to change option state", Toast.LENGTH_LONG);
-                toast.show();
-            }
+            startActivity(new Intent(MainActivity.this, KeyCodesForPlayPauseLearningActivity.class));
         }
     }
 
-    private SwitchTrackWhenPausedPreference mSwitchTrackWhenPausedPreference = null;
     private Button mLearnKeyCodeForPreviousButton = null;
     private Button mLearnKeyCodeForNextButton = null;
-    private Switch mSwitchTrackWhenPausedSwitch = null;
 }

@@ -12,7 +12,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Learning"
+        android:text="Start learning"
         android:id="@+id/buttonStartLearningNext"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Learn key codes for &lt; NEXT >"
+        android:text="Learn key codes &lt; NEXT >"
         android:id="@+id/textLearnKeyCodesForNext"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

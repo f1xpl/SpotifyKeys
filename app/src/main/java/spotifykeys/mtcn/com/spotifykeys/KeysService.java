@@ -10,6 +10,8 @@ import android.os.Messenger;
 import android.os.RemoteException;
 
 import spotifykeys.mtcn.com.spotifykeys.next.KeyCodesForNextPreference;
+import spotifykeys.mtcn.com.spotifykeys.players.PlayerProxiesController;
+import spotifykeys.mtcn.com.spotifykeys.playpause.KeyCodesForPlayPausePreference;
 import spotifykeys.mtcn.com.spotifykeys.previous.KeyCodesForPreviousPreference;
 
 /**
@@ -19,21 +21,21 @@ public class KeysService extends android.app.Service {
     @Override
     public void onCreate() {
         SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.APP_NAME, Context.MODE_PRIVATE);
-        mSwitchTrackWhenPausedPreference = new SwitchTrackWhenPausedPreference(sharedPreferences);
         mKeyCodesForNextPreference = new KeyCodesForNextPreference(sharedPreferences);
         mKeyCodesForPreviousPreference = new KeyCodesForPreviousPreference(sharedPreferences);
-        mSpotifyProxy = new SpotifyProxy(this, mSwitchTrackWhenPausedPreference);
+        mKeyCodesForPlayPausePreference = new KeyCodesForPlayPausePreference(sharedPreferences);
+        mPlayerProxiesController = new PlayerProxiesController(this);
         mKeyEventsHandler = new KeyEventsHandler(this, mKeyEventsHandlerListener);
 
+        mPlayerProxiesController.registerAll();
         mKeyEventsHandler.subscribe();
-        mSpotifyProxy.subscribe();
     }
 
     @Override public void onDestroy() {
         super.onDestroy();
 
         mKeyEventsHandler.unsubscribe();
-        mSpotifyProxy.unsubscribe();
+        mPlayerProxiesController.unregisterAll();
     }
 
     @Override
@@ -48,7 +50,7 @@ public class KeysService extends android.app.Service {
         return mMessenger.getBinder();
     }
 
-    class MessageHandler extends Handler {
+    private class MessageHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             switch(msg.what) {
@@ -62,7 +64,7 @@ public class KeysService extends android.app.Service {
         }
     }
 
-    private KeyEventsHandlerListener mKeyEventsHandlerListener = new KeyEventsHandlerListener() {
+    private final KeyEventsHandlerListener mKeyEventsHandlerListener = new KeyEventsHandlerListener() {
         @Override
         public void onKeyPressed(int keyCode) {
             String keyCodeString = Integer.toString(keyCode);
@@ -70,10 +72,12 @@ public class KeysService extends android.app.Service {
             if(mKeyCodeObtainerMessenger != null) {
                 sendKeyCode(keyCode);
                 mKeyCodeObtainerMessenger = null;
+            } else if(mKeyCodesForPlayPausePreference.get().contains(keyCodeString)) {
+                mPlayerProxiesController.togglePlay();
             } else if (mKeyCodesForNextPreference.get().contains(keyCodeString)) {
-                mSpotifyProxy.nextTrack();
+                mPlayerProxiesController.switchToNextTrack();
             } else if (mKeyCodesForPreviousPreference.get().contains(keyCodeString)) {
-                mSpotifyProxy.previousTrack();
+                mPlayerProxiesController.switchToPreviousTrack();
             }
         }
 
@@ -90,10 +94,10 @@ public class KeysService extends android.app.Service {
         }
     };
 
-    private SwitchTrackWhenPausedPreference mSwitchTrackWhenPausedPreference = null;
     private KeyCodesForNextPreference mKeyCodesForNextPreference = null;
     private KeyCodesForPreviousPreference mKeyCodesForPreviousPreference = null;
-    private SpotifyProxy mSpotifyProxy = null;
+    private KeyCodesForPlayPausePreference mKeyCodesForPlayPausePreference = null;
+    private PlayerProxiesController mPlayerProxiesController = null;
     private KeyEventsHandler mKeyEventsHandler = null;
     private final Messenger mMessenger = new Messenger(new MessageHandler());
     private Messenger mKeyCodeObtainerMessenger = null;

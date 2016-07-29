@@ -17,5 +17,5 @@ public class KeyCodesForPreviousPreference extends KeyCodes {
         return KEY_PREFIX;
     }
 
-    public static final String KEY_PREFIX = "KeyCodesForPrevious";
+    private static final String KEY_PREFIX = "KeyCodesForPrevious";
 }

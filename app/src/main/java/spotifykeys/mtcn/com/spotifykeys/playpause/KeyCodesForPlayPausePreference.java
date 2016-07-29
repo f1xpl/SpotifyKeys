@@ -1,4 +1,4 @@
-package spotifykeys.mtcn.com.spotifykeys.next;
+package spotifykeys.mtcn.com.spotifykeys.playpause;
 
 import android.content.SharedPreferences;
 
@@ -7,8 +7,8 @@ import spotifykeys.mtcn.com.spotifykeys.framework.preferences.KeyCodes;
 /**
  * Created by COMPUTER on 2016-07-28.
  */
-public class KeyCodesForNextPreference extends KeyCodes {
-    public KeyCodesForNextPreference(SharedPreferences sharedPreferences) {
+public class KeyCodesForPlayPausePreference extends KeyCodes {
+    public KeyCodesForPlayPausePreference(SharedPreferences sharedPreferences) {
         super(sharedPreferences);
     }
 
@@ -17,5 +17,5 @@ public class KeyCodesForNextPreference extends KeyCodes {
         return KEY_PREFIX;
     }
 
-    private static final String KEY_PREFIX = "KeyCodesForNext";
+    private static final String KEY_PREFIX = "KeyCodesForPlayPause";
 }
