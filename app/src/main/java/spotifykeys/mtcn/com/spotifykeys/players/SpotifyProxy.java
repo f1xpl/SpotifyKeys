@@ -38,10 +38,16 @@ public class SpotifyProxy extends PlayerProxy {
     }
 
     @Override
+    public String getPackageName() {
+        return PACKAGE_NAME;
+    }
+
+    @Override
     protected boolean readPlaybackStateFromIntent(Intent intent) {
         return intent.getBooleanExtra(PLAYBACK_STATE_PARAM_NAME, false);
     }
 
+    private static final String PACKAGE_NAME = "com.spotify.music";
     private static final String PLAYBACK_STATE_PARAM_NAME = "playing";
     private static final String PAUSED_STATE_PARAM_NAME = "paused";
     private static final String PLAYBACK_STATE_ACTION_NAME = "com.spotify.music.playbackstatechanged";

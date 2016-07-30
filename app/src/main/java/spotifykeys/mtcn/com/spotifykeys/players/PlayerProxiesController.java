@@ -53,6 +53,13 @@ public class PlayerProxiesController {
         mContext.sendBroadcast(intent);
     }
 
+    public void launch() {
+        PlayerProxy playerProxy = mPlayerProxies.get(0); // TODO: Support more players
+        Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(playerProxy.getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
+    }
+
     private void register(PlayerProxy playerProxy) {
         IntentFilter playbackStateIntent = new IntentFilter();
         playbackStateIntent.addAction(playerProxy.getPlaybackStateActionName());

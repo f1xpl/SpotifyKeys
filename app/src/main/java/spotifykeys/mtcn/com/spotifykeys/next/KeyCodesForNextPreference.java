@@ -2,12 +2,12 @@ package spotifykeys.mtcn.com.spotifykeys.next;
 
 import android.content.SharedPreferences;
 
-import spotifykeys.mtcn.com.spotifykeys.framework.preferences.KeyCodes;
+import spotifykeys.mtcn.com.spotifykeys.framework.preferences.KeyCodesPreference;
 
 /**
  * Created by COMPUTER on 2016-07-28.
  */
-public class KeyCodesForNextPreference extends KeyCodes {
+public class KeyCodesForNextPreference extends KeyCodesPreference {
     public KeyCodesForNextPreference(SharedPreferences sharedPreferences) {
         super(sharedPreferences);
     }

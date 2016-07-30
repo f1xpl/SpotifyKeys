@@ -3,10 +3,10 @@ package spotifykeys.mtcn.com.spotifykeys.next;
 import android.os.Bundle;
 
 import spotifykeys.mtcn.com.spotifykeys.R;
-import spotifykeys.mtcn.com.spotifykeys.framework.KeyCodesLearningActivity;
+import spotifykeys.mtcn.com.spotifykeys.framework.MultipleKeyCodesLearningActivity;
 import spotifykeys.mtcn.com.spotifykeys.framework.KeyCodesStorage;
 
-public class KeyCodesForNextLearningActivity extends KeyCodesLearningActivity {
+public class KeyCodesForNextLearningActivity extends MultipleKeyCodesLearningActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

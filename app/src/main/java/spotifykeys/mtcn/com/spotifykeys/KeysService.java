@@ -9,6 +9,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
+import spotifykeys.mtcn.com.spotifykeys.launch.KeyCodeForLaunchPreference;
 import spotifykeys.mtcn.com.spotifykeys.next.KeyCodesForNextPreference;
 import spotifykeys.mtcn.com.spotifykeys.players.PlayerProxiesController;
 import spotifykeys.mtcn.com.spotifykeys.playpause.KeyCodesForPlayPausePreference;
@@ -24,6 +25,8 @@ public class KeysService extends android.app.Service {
         mKeyCodesForNextPreference = new KeyCodesForNextPreference(sharedPreferences);
         mKeyCodesForPreviousPreference = new KeyCodesForPreviousPreference(sharedPreferences);
         mKeyCodesForPlayPausePreference = new KeyCodesForPlayPausePreference(sharedPreferences);
+        mKeyCodeForLaunchPreference = new KeyCodeForLaunchPreference(sharedPreferences);
+
         mPlayerProxiesController = new PlayerProxiesController(this);
         mKeyEventsHandler = new KeyEventsHandler(this, mKeyEventsHandlerListener);
 
@@ -69,9 +72,11 @@ public class KeysService extends android.app.Service {
         public void onKeyPressed(int keyCode) {
             String keyCodeString = Integer.toString(keyCode);
 
-            if(mKeyCodeObtainerMessenger != null) {
+            if (mKeyCodeObtainerMessenger != null) {
                 sendKeyCode(keyCode);
                 mKeyCodeObtainerMessenger = null;
+            } else if (mKeyCodeForLaunchPreference.get() == keyCode) {
+                mPlayerProxiesController.launch();
             } else if(mKeyCodesForPlayPausePreference.get().contains(keyCodeString)) {
                 mPlayerProxiesController.togglePlay();
             } else if (mKeyCodesForNextPreference.get().contains(keyCodeString)) {
@@ -97,6 +102,7 @@ public class KeysService extends android.app.Service {
     private KeyCodesForNextPreference mKeyCodesForNextPreference = null;
     private KeyCodesForPreviousPreference mKeyCodesForPreviousPreference = null;
     private KeyCodesForPlayPausePreference mKeyCodesForPlayPausePreference = null;
+    private KeyCodeForLaunchPreference mKeyCodeForLaunchPreference = null;
     private PlayerProxiesController mPlayerProxiesController = null;
     private KeyEventsHandler mKeyEventsHandler = null;
     private final Messenger mMessenger = new Messenger(new MessageHandler());

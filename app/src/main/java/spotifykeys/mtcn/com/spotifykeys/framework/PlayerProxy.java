@@ -13,6 +13,7 @@ public abstract class PlayerProxy extends BroadcastReceiver {
     }
 
     public abstract String getPlaybackStateActionName();
+    public abstract String getPackageName();
 
     public abstract Intent getNextTrackIntent();
     public abstract Intent getPreviousTrackIntent();

@@ -42,4 +42,15 @@
         android:layout_alignRight="@+id/buttonLearnNext"
         android:layout_alignEnd="@+id/buttonLearnNext" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Learn &lt; LAUNCH > key code"
+        android:id="@+id/buttonLearnLaunch"
+        android:layout_below="@+id/buttonLearnPlayPause"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
