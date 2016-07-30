@@ -35,5 +35,10 @@ public abstract class KeyCodesPreference extends Preference<Set<String>> {
         mEditor.putStringSet(getKeyPrefix(), value);
     }
 
+    @Override
+    protected Set<String> getDefaultValue() {
+        return DEFAULT_VALUE;
+    }
+
     private static final Set<String> DEFAULT_VALUE = new HashSet<>();
 }

@@ -24,6 +24,11 @@ public abstract class Preference<T> {
         commit();
     }
 
+    public void reset() throws CommitFailedException {
+        set(getDefaultValue());
+    }
+
+    protected abstract T getDefaultValue();
     protected abstract T read();
     protected abstract void write(T value);
 

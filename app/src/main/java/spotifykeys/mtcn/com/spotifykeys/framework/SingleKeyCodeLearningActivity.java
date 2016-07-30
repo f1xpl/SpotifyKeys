@@ -1,9 +1,9 @@
 package spotifykeys.mtcn.com.spotifykeys.framework;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
-import spotifykeys.mtcn.com.spotifykeys.framework.KeyCodeLearningActivity;
 import spotifykeys.mtcn.com.spotifykeys.framework.preferences.CommitFailedException;
 import spotifykeys.mtcn.com.spotifykeys.framework.preferences.KeyCodePreference;
 
@@ -22,6 +22,7 @@ public abstract class SingleKeyCodeLearningActivity extends KeyCodeLearningActiv
     protected void initKeyCodeTextView(int id) {
         mKeyCodeTextView = (TextView)findViewById(id);
         setKeyCodeText(mKeyCodePreference.get());
+        mKeyCodeTextView.setOnLongClickListener(new LearntKeyCodeClickListener());
     }
 
     @Override
@@ -39,6 +40,20 @@ public abstract class SingleKeyCodeLearningActivity extends KeyCodeLearningActiv
 
     private void setKeyCodeText(int keyCode) {
         mKeyCodeTextView.setText("Key code: < " + Integer.toString(keyCode) + " >");
+    }
+
+    private class LearntKeyCodeClickListener implements TextView.OnLongClickListener {
+        @Override
+        public boolean onLongClick(View view) {
+            try {
+                mKeyCodePreference.reset();
+                mKeyCodeTextView.setText("Key code: < NONE >");
+            } catch (CommitFailedException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
     }
 
     TextView mKeyCodeTextView = null;

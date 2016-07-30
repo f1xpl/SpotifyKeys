@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, mActivity));
         }
 
-        Class<? extends Activity> mActivity;
+        private final Class<? extends Activity> mActivity;
     }
 
     private Button mLearnKeyCodeForPreviousButton = null;

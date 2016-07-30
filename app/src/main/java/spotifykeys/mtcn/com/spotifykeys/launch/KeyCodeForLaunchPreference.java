@@ -14,8 +14,8 @@ public class KeyCodeForLaunchPreference extends KeyCodePreference {
 
     @Override
     protected String getKeyPrefix() {
-        return KEYCODE_PREFIX;
+        return KEY_PREFIX;
     }
 
-    private static final String KEYCODE_PREFIX = "KeyCodeForLaunch";
+    private static final String KEY_PREFIX = "KeyCodeForLaunch";
 }

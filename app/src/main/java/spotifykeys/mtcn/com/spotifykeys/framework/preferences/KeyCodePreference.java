@@ -20,5 +20,10 @@ public abstract class KeyCodePreference extends Preference<Integer> {
         mEditor.putInt(getKeyPrefix(), value);
     }
 
+    @Override
+    protected Integer getDefaultValue() {
+        return DEFAULT_VALUE;
+    }
+
     private static final int DEFAULT_VALUE = -1;
 }
